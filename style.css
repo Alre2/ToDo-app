@@ -23,7 +23,7 @@ h1 {
   gap: 10px;
 }
 
-input {
+input[type="text"] {
   flex: 1;
   padding: 8px;
   border: 1px solid #ddd;
@@ -55,11 +55,27 @@ ul {
   margin-top: 15px;
 }
 
-li::before {
-  content: "✔ ";
-  color: green;
-  font-weight: bold;
-  margin-right: 6px;
+li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 6px 10px;
+  margin-bottom: 8px;
 }
 
+li span {
+  flex: 1;
+  margin-left: 8px;
+}
 
+.delete {
+  margin-left: 10px;
+  cursor: pointer;
+}
+
+input[type="checkbox"] {
+  transform: scale(1.3);
+  cursor: pointer;
+}
