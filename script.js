@@ -13,13 +13,7 @@ addBtn.addEventListener("click", () => {
     return;
   }
   message.textContent = "";
-
-  const task = {
-    id: Date.now(),
-    text: text,
-    done: false
-  };
-
+  const task = { id: Date.now(), text: text, done: false };
   tasks.push(task);
   renderTasks();
   taskInput.value = "";
@@ -27,33 +21,33 @@ addBtn.addEventListener("click", () => {
 
 function renderTasks() {
   taskList.innerHTML = "";
-
   tasks.forEach(task => {
     const li = document.createElement("li");
-    li.textContent = task.text;
-
-    if (task.done) {
-      li.classList.add("done");
-    }
-
-    li.addEventListener("click", () => {
-      task.done = !task.done;
+    const checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
+    checkbox.checked = task.done;
+    checkbox.addEventListener("change", () => {
+      task.done = checkbox.checked;
       renderTasks();
     });
-
+    const textSpan = document.createElement("span");
+    textSpan.textContent = task.text;
+    if (task.done) {
+      textSpan.style.textDecoration = "line-through";
+      textSpan.style.color = "gray";
+    }
     const delBtn = document.createElement("span");
     delBtn.textContent = "🗑️";
     delBtn.classList.add("delete");
-    delBtn.addEventListener("click", (e) => {
-      e.stopPropagation();
+    delBtn.addEventListener("click", () => {
       tasks = tasks.filter(t => t.id !== task.id);
       renderTasks();
     });
-
+    li.appendChild(checkbox);
+    li.appendChild(textSpan);
     li.appendChild(delBtn);
     taskList.appendChild(li);
   });
-
   updateDoneCount();
 }
 
@@ -61,4 +55,3 @@ function updateDoneCount() {
   const count = tasks.filter(t => t.done).length;
   doneCount.textContent = count;
 }
-
