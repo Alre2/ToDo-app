@@ -70,6 +70,11 @@ li span {
   margin-left: 8px;
 }
 
+li.done span {
+  text-decoration: line-through;
+  color: gray;
+}
+
 .delete {
   margin-left: 10px;
   cursor: pointer;
