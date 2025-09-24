@@ -49,5 +49,17 @@ button:hover {
   font-size: 14px;
 }
 
-u
+ul {
+  list-style: none;
+  padding: 0;
+  margin-top: 15px;
+}
+
+li::before {
+  content: "✔ ";
+  color: green;
+  font-weight: bold;
+  margin-right: 6px;
+}
+
 
