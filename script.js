@@ -23,19 +23,24 @@ function renderTasks() {
   taskList.innerHTML = "";
   tasks.forEach(task => {
     const li = document.createElement("li");
+
     const checkbox = document.createElement("input");
     checkbox.type = "checkbox";
     checkbox.checked = task.done;
+
     checkbox.addEventListener("change", () => {
       task.done = checkbox.checked;
-      renderTasks();
+      if (task.done) {
+        li.classList.add("done");
+      } else {
+        li.classList.remove("done");
+      }
+      updateDoneCount();
     });
+
     const textSpan = document.createElement("span");
     textSpan.textContent = task.text;
-    if (task.done) {
-      textSpan.style.textDecoration = "line-through";
-      textSpan.style.color = "gray";
-    }
+
     const delBtn = document.createElement("span");
     delBtn.textContent = "🗑️";
     delBtn.classList.add("delete");
@@ -43,6 +48,11 @@ function renderTasks() {
       tasks = tasks.filter(t => t.id !== task.id);
       renderTasks();
     });
+
+    if (task.done) {
+      li.classList.add("done");
+    }
+
     li.appendChild(checkbox);
     li.appendChild(textSpan);
     li.appendChild(delBtn);
