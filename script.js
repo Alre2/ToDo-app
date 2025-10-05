@@ -3,10 +3,9 @@ const input = document.getElementById('todo-input');
 const list = document.getElementById('todo-list');
 const error = document.getElementById('error');
 const doneCountEl = document.getElementById('done-count');
-
 let doneCount = 0;
 
-// Enter för att lägga till
+// Enter ska lägga till
 input.addEventListener('keydown', (e) => {
   if (e.key === 'Enter') {
     e.preventDefault();
@@ -35,7 +34,15 @@ function createTodoItem(text) {
 
   const del = document.createElement('button');
   del.className = 'btn-delete';
-  del.innerHTML = '🗑️';
+  del.innerHTML = `
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="3 6 5 6 21 6"></polyline>
+      <path d="M19 6l-1 14H6L5 6"></path>
+      <path d="M10 11v6"></path>
+      <path d="M14 11v6"></path>
+      <path d="M9 6V4h6v2"></path>
+    </svg>
+  `;
   del.title = 'Radera';
 
   li.append(p, del);
@@ -63,7 +70,7 @@ form.addEventListener('submit', (e) => {
 });
 
 list.addEventListener('click', (e) => {
-  if (e.target.classList.contains('btn-delete')) {
+  if (e.target.closest('.btn-delete')) {
     e.target.closest('.todo').remove();
     return;
   }
@@ -72,7 +79,6 @@ list.addEventListener('click', (e) => {
   if (li) {
     const wasCompleted = li.classList.contains('completed');
     li.classList.toggle('completed');
-
     if (!wasCompleted && li.classList.contains('completed')) {
       doneCount++;
       doneCountEl.textContent = doneCount;
