@@ -1,24 +1,31 @@
 <!DOCTYPE html>
 <html lang="sv">
 <head>
-  <meta charset="UTF-8">
-  <title>ToDo App</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>ToDo</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
-<body>
-  <div class="container">
-    <h1>ToDo-lista</h1>
-    <div class="input-area">
-      <input type="text" id="taskInput" placeholder="Skriv en uppgift...">
-      <button id="addBtn">Lägg till</button>
+<body class="page">
+  <main class="app" role="main" aria-labelledby="app-title">
+    <h1 id="app-title">Att göra</h1>
+
+    <form id="todo-form" autocomplete="off" novalidate>
+      <label for="todo-input" class="sr-only">Ny punkt</label>
+      <input id="todo-input" type="text" placeholder="Skriv en ny punkt…" />
+      <button id="add-btn" type="submit" aria-label="Lägg till">Lägg till</button>
+    </form>
+
+    <p id="error" class="error-msg" aria-live="polite"></p>
+
+    <div class="meta">
+      <span id="done-label">Klara punkter:</span>
+      <strong id="done-count" aria-labelledby="done-label">0</strong>
     </div>
-    <p id="message"></p>
-    <ul id="taskList"></ul>
-    <div class="status">
-      Klara uppgifter: <span id="doneCount">0</span>
-    </div>
-  </div>
+
+    <ul id="todo-list" aria-live="polite"></ul>
+  </main>
+
   <script src="script.js"></script>
 </body>
 </html>
-
