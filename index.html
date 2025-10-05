@@ -7,23 +7,22 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body class="page">
-  <main class="app" role="main" aria-labelledby="app-title">
-    <h1 id="app-title">Att göra</h1>
+  <main class="app">
+    <h1>Att göra</h1>
 
-    <form id="todo-form" autocomplete="off" novalidate>
-      <label for="todo-input" class="sr-only">Ny punkt</label>
+    <form id="todo-form" autocomplete="off">
       <input id="todo-input" type="text" placeholder="Skriv en ny punkt…" />
-      <button id="add-btn" type="submit" aria-label="Lägg till">Lägg till</button>
+      <button id="add-btn" type="submit">Lägg till</button>
     </form>
 
-    <p id="error" class="error-msg" aria-live="polite"></p>
+    <p id="error" class="error-msg"></p>
 
     <div class="meta">
-      <span id="done-label">Klara punkter:</span>
-      <strong id="done-count" aria-labelledby="done-label">0</strong>
+      <span>Klara punkter:</span>
+      <strong id="done-count">0</strong>
     </div>
 
-    <ul id="todo-list" aria-live="polite"></ul>
+    <ul id="todo-list"></ul>
   </main>
 
   <script src="script.js"></script>
