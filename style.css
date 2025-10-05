@@ -111,9 +111,12 @@ ul{list-style:none;display:flex;flex-direction:column;gap:10px}
   font-weight:700;
 }
 
+/* När klar: grå + svart genomstrykning */
 .todo.completed .todo__text{
   color:var(--gray);
   text-decoration:line-through;
+  text-decoration-color:black;
+  text-decoration-thickness:2px;
 }
 
 .btn-delete{
@@ -124,5 +127,15 @@ ul{list-style:none;display:flex;flex-direction:column;gap:10px}
   cursor:pointer;
   padding:5px;
   border-radius:8px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
 }
-.btn-delete:hover{color:#ff9b9b;background:rgba(255,255,255,.1)}
+.btn-delete:hover{
+  color:#ff9b9b;
+  background:rgba(255,255,255,.1);
+}
+.btn-delete svg{
+  width:20px;
+  height:20px;
+}
