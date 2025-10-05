@@ -1,67 +1,121 @@
-let tasks = [];
+const form = document.getElementById('todo-form');
+const input = document.getElementById('todo-input');
+const list  = document.getElementById('todo-list');
+const error = document.getElementById('error');
+const doneCountEl = document.getElementById('done-count');
 
-const taskInput = document.getElementById("taskInput");
-const addBtn = document.getElementById("addBtn");
-const taskList = document.getElementById("taskList");
-const message = document.getElementById("message");
-const doneCount = document.getElementById("doneCount");
+let doneCount = 0;
 
-addBtn.addEventListener("click", () => {
-  const text = taskInput.value.trim();
-  if (text === "") {
-    message.textContent = "Du måste skriva något!";
-    return;
+// Enter i input ska lägga till (förutom form-submit funkar Enter ändå, detta gör den explicit)
+input.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') {
+    e.preventDefault();
+    form.requestSubmit(); // triggar formens submit
   }
-  message.textContent = "";
-  const task = { id: Date.now(), text: text, done: false };
-  tasks.push(task);
-  renderTasks();
-  taskInput.value = "";
 });
 
-function renderTasks() {
-  taskList.innerHTML = "";
-  tasks.forEach(task => {
-    const li = document.createElement("li");
+function showError(msg){
+  error.textContent = msg;
+  error.classList.add('show','blink');
+  error.addEventListener('animationend', () => {
+    error.classList.remove('blink');
+  }, { once:true });
+}
 
-    const checkbox = document.createElement("input");
-    checkbox.type = "checkbox";
-    checkbox.checked = task.done;
+function clearError(){
+  if(!error.textContent) return;
+  error.textContent = '';
+  error.classList.remove('show','blink');
+}
 
-    checkbox.addEventListener("change", () => {
-      task.done = checkbox.checked;
-      if (task.done) {
-        li.classList.add("done");
-      } else {
-        li.classList.remove("done");
-      }
-      updateDoneCount();
-    });
+function createTodoItem(text){
+  const li = document.createElement('li');
+  li.className = 'todo todo-enter';
+  li.setAttribute('role', 'button');
+  li.setAttribute('tabindex', '0');
+  li.setAttribute('aria-pressed', 'false');
 
-    const textSpan = document.createElement("span");
-    textSpan.textContent = task.text;
+  const p = document.createElement('p');
+  p.className = 'todo__text';
+  p.textContent = text;
 
-    const delBtn = document.createElement("span");
-    delBtn.textContent = "🗑️";
-    delBtn.classList.add("delete");
-    delBtn.addEventListener("click", () => {
-      tasks = tasks.filter(t => t.id !== task.id);
-      renderTasks();
-    });
+  const del = document.createElement('button');
+  del.className = 'btn-delete';
+  del.type = 'button';
+  del.title = 'Radera';
+  del.setAttribute('aria-label','Radera punkt');
+  del.textContent = '✕';
 
-    if (task.done) {
-      li.classList.add("done");
+  li.appendChild(p);
+  li.appendChild(del);
+
+  li.addEventListener('animationend', () => {
+    li.classList.remove('todo-enter');
+  }, { once:true });
+
+  return li;
+}
+
+function addTodo(text){
+  const item = createTodoItem(text);
+  list.prepend(item);
+}
+
+form.addEventListener('submit', (e) => {
+  e.preventDefault();
+  const value = input.value.trim();
+
+  if(!value){
+    showError('Skriv något innan du lägger till.');
+    input.focus();
+    return;
+  }
+  clearError();
+  addTodo(value);
+  input.value = '';
+  input.focus();
+});
+
+// Klick: radera eller markera klar
+list.addEventListener('click', (e) => {
+  const target = e.target;
+
+  if(target.classList.contains('btn-delete')){
+    target.closest('.todo')?.remove();
+    return;
+  }
+
+  const li = target.closest('.todo');
+  if(li && !target.classList.contains('btn-delete')){
+    const wasCompleted = li.classList.contains('completed');
+    li.classList.toggle('completed');
+
+    if(!wasCompleted && li.classList.contains('completed')){
+      doneCount += 1;
+      doneCountEl.textContent = String(doneCount);
     }
+    li.setAttribute('aria-pressed', li.classList.contains('completed') ? 'true' : 'false');
+  }
+});
 
-    li.appendChild(checkbox);
-    li.appendChild(textSpan);
-    li.appendChild(delBtn);
-    taskList.appendChild(li);
-  });
-  updateDoneCount();
-}
+// Enter/Space på markerad rad
+list.addEventListener('keydown', (e) => {
+  if(e.key === 'Enter' || e.key === ' '){
+    const li = e.target.closest('.todo');
+    if(li){
+      e.preventDefault();
+      const wasCompleted = li.classList.contains('completed');
+      li.classList.toggle('completed');
+      if(!wasCompleted && li.classList.contains('completed')){
+        doneCount += 1;
+        doneCountEl.textContent = String(doneCount);
+      }
+      li.setAttribute('aria-pressed', li.classList.contains('completed') ? 'true' : 'false');
+    }
+  }
+});
 
-function updateDoneCount() {
-  const count = tasks.filter(t => t.done).length;
-  doneCount.textContent = count;
-}
+// Rensa fel när man börjar skriva
+input.addEventListener('input', () => {
+  if(input.value.trim().length > 0) clearError();
+});
