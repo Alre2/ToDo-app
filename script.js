@@ -1,87 +1,119 @@
-const form = document.getElementById('todo-form');
-const input = document.getElementById('todo-input');
-const list = document.getElementById('todo-list');
-const error = document.getElementById('error');
-const doneCountEl = document.getElementById('done-count');
-let doneCount = 0;
-
-// Enter ska lägga till
-input.addEventListener('keydown', (e) => {
-  if (e.key === 'Enter') {
-    e.preventDefault();
-    form.requestSubmit();
-  }
-});
-
-function showError(msg) {
-  error.textContent = msg;
-  error.classList.add('show', 'blink');
-  error.addEventListener('animationend', () => error.classList.remove('blink'), { once: true });
+body{
+  margin:0;
+  font-family: Arial, sans-serif;
+  background:#ffe6f0;
+  color:#222;
 }
 
-function clearError() {
-  error.textContent = '';
-  error.classList.remove('show', 'blink');
+#app{
+  max-width:600px;
+  margin:60px auto;
+  background:#fff;
+  border:1px solid #ddd;
+  padding:16px;
+  border-radius:6px;
+  box-shadow:0 4px 14px rgba(0,0,0,0.06);
+  opacity:0;
+  transform:translateY(-30px);
+  animation:pageIn .6s ease forwards;
 }
 
-function createTodoItem(text) {
-  const li = document.createElement('li');
-  li.className = 'todo';
-
-  const p = document.createElement('p');
-  p.className = 'todo__text';
-  p.textContent = text;
-
-  const del = document.createElement('button');
-  del.className = 'btn-delete';
-  del.innerHTML = `
-    <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
-      <polyline points="3 6 5 6 21 6"></polyline>
-      <path d="M19 6l-1 14H6L5 6"></path>
-      <path d="M10 11v6"></path>
-      <path d="M14 11v6"></path>
-      <path d="M9 6V4h6v2"></path>
-    </svg>
-  `;
-  del.title = 'Radera';
-
-  li.append(p, del);
-  return li;
+h1{
+  margin:0 0 12px 0;
+  font-size:22px;
+  color:#d81b60;
 }
 
-function addTodo(text) {
-  const item = createTodoItem(text);
-  list.prepend(item);
+#todoForm{
+  display:flex;
+  gap:8px;
+  margin-bottom:8px;
 }
 
-form.addEventListener('submit', (e) => {
-  e.preventDefault();
-  const value = input.value.trim();
+#todoInput{
+  flex:1;
+  padding:8px;
+  border:1px solid #ccc;
+  border-radius:4px;
+  background:#fff0f7;
+}
 
-  if (!value) {
-    showError('Skriv något innan du lägger till.');
-    return;
-  }
+#addBtn{
+  padding:8px 12px;
+  border:1px solid #c94b7a;
+  background:#ff99c8;
+  color:#000;
+  border-radius:4px;
+  cursor:pointer;
+}
+#addBtn:hover{opacity:0.9;}
 
-  clearError();
-  addTodo(value);
-  input.value = '';
-  input.focus();
-});
+.error{
+  min-height:18px;
+  color:#c00;
+  font-weight:bold;
+}
+.blink{
+  animation:blinkRed .8s ease-in-out 2;
+}
 
-list.addEventListener('click', (e) => {
-  if (e.target.closest('.btn-delete')) {
-    e.target.closest('.todo').remove();
-    return;
-  }
+#todoList{
+  list-style:none;
+  padding:0;
+  margin:10px 0 0 0;
+  border-top:1px solid #eee;
+}
+.item{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
+  padding:8px 0;
+  border-bottom:1px solid #eee;
+  opacity:0;
+  transform:translateY(8px);
+  animation:itemIn .3s ease forwards;
+}
+.text{
+  margin:0;
+  flex:1;
+  transition: color .25s ease, opacity .25s ease;
+}
 
-  const li = e.target.closest('.todo');
-  if (li) {
-    const wasCompleted = li.classList.contains('completed');
-    li.classList.toggle('completed');
-    if (!wasCompleted && li.classList.contains('completed')) {
-      doneCount++;
-      doneCountEl.textContent = doneCount;
-    }
-  }
-});
+.completed .text{
+  color:#777;
+  text-decoration:line-through;
+  opacity:0.8;
+}
+
+.buttons{display:flex;gap:6px;}
+.buttons button{
+  border:1px solid #ccc;
+  background:#f6f6f6;
+  color:#000;
+  padding:6px 8px;
+  border-radius:4px;
+  cursor:pointer;
+}
+.buttons button:hover{opacity:0.95;}
+.btn-klar{background:#ffd4e8;}
+.btn-del{background:#ffe1e1;}
+
+@keyframes pageIn{
+  from{opacity:0;transform:translateY(-30px);}
+  to{opacity:1;transform:translateY(0);}
+}
+@keyframes itemIn{
+  from{opacity:0;transform:translateY(8px);}
+  to{opacity:1;transform:translateY(0);}
+}
+@keyframes blinkRed{
+  0%,100%{color:#c00;}
+  50%{color:#900;}
+}
+
+@media (prefers-reduced-motion: reduce){
+  #app,.item{animation:none;opacity:1;transform:none;}
+  .blink{animation:none;}
+}
+
