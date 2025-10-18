@@ -1,119 +1,70 @@
-body{
-  margin:0;
-  font-family: Arial, sans-serif;
-  background:#ffe6f0;
-  color:#222;
+const form = document.getElementById("todoForm");
+const input = document.getElementById("todoInput");
+const list = document.getElementById("todoList");
+const errorMsg = document.getElementById("errorMsg");
+const doneCounter = document.getElementById("doneCounter");
+let doneCount = 0;
+
+function createItem(text){
+  const li = document.createElement("li");
+  li.className = "item";
+  const p = document.createElement("p");
+  p.className = "text";
+  p.textContent = text;
+  const buttons = document.createElement("div");
+  buttons.className = "buttons";
+  const btnDone = document.createElement("button");
+  btnDone.type = "button";
+  btnDone.className = "btn-klar";
+  btnDone.textContent = "Klar";
+  const btnDel = document.createElement("button");
+  btnDel.type = "button";
+  btnDel.className = "btn-del";
+  btnDel.textContent = "Ta bort";
+  buttons.appendChild(btnDone);
+  buttons.appendChild(btnDel);
+  li.appendChild(p);
+  li.appendChild(buttons);
+  return li;
 }
 
-#app{
-  max-width:600px;
-  margin:60px auto;
-  background:#fff;
-  border:1px solid #ddd;
-  padding:16px;
-  border-radius:6px;
-  box-shadow:0 4px 14px rgba(0,0,0,0.06);
-  opacity:0;
-  transform:translateY(-30px);
-  animation:pageIn .6s ease forwards;
-}
+form.addEventListener("submit", function(e){
+  e.preventDefault();
+  const value = input.value.trim();
+  if(!value){
+    errorMsg.textContent = "Skriv något först.";
+    errorMsg.classList.remove("blink");
+    void errorMsg.offsetWidth;
+    errorMsg.classList.add("blink");
+    input.focus();
+    return;
+  }
+  errorMsg.textContent = "";
+  errorMsg.classList.remove("blink");
+  const item = createItem(value);
+  list.appendChild(item);
+  input.value = "";
+  input.focus();
+});
 
-h1{
-  margin:0 0 12px 0;
-  font-size:22px;
-  color:#d81b60;
-}
-
-#todoForm{
-  display:flex;
-  gap:8px;
-  margin-bottom:8px;
-}
-
-#todoInput{
-  flex:1;
-  padding:8px;
-  border:1px solid #ccc;
-  border-radius:4px;
-  background:#fff0f7;
-}
-
-#addBtn{
-  padding:8px 12px;
-  border:1px solid #c94b7a;
-  background:#ff99c8;
-  color:#000;
-  border-radius:4px;
-  cursor:pointer;
-}
-#addBtn:hover{opacity:0.9;}
-
-.error{
-  min-height:18px;
-  color:#c00;
-  font-weight:bold;
-}
-.blink{
-  animation:blinkRed .8s ease-in-out 2;
-}
-
-#todoList{
-  list-style:none;
-  padding:0;
-  margin:10px 0 0 0;
-  border-top:1px solid #eee;
-}
-.item{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:8px;
-  padding:8px 0;
-  border-bottom:1px solid #eee;
-  opacity:0;
-  transform:translateY(8px);
-  animation:itemIn .3s ease forwards;
-}
-.text{
-  margin:0;
-  flex:1;
-  transition: color .25s ease, opacity .25s ease;
-}
-
-.completed .text{
-  color:#777;
-  text-decoration:line-through;
-  opacity:0.8;
-}
-
-.buttons{display:flex;gap:6px;}
-.buttons button{
-  border:1px solid #ccc;
-  background:#f6f6f6;
-  color:#000;
-  padding:6px 8px;
-  border-radius:4px;
-  cursor:pointer;
-}
-.buttons button:hover{opacity:0.95;}
-.btn-klar{background:#ffd4e8;}
-.btn-del{background:#ffe1e1;}
-
-@keyframes pageIn{
-  from{opacity:0;transform:translateY(-30px);}
-  to{opacity:1;transform:translateY(0);}
-}
-@keyframes itemIn{
-  from{opacity:0;transform:translateY(8px);}
-  to{opacity:1;transform:translateY(0);}
-}
-@keyframes blinkRed{
-  0%,100%{color:#c00;}
-  50%{color:#900;}
-}
-
-@media (prefers-reduced-motion: reduce){
-  #app,.item{animation:none;opacity:1;transform:none;}
-  .blink{animation:none;}
-}
-
+list.addEventListener("click", function(e){
+  const btn = e.target.closest("button");
+  if(!btn) return;
+  const li = btn.closest(".item");
+  if(!li) return;
+  if(btn.textContent === "Klar"){
+    const willBeCompleted = !li.classList.contains("completed");
+    li.classList.toggle("completed");
+    if(willBeCompleted){doneCount++;}else{doneCount=Math.max(0,doneCount-1);}
+    doneCounter.textContent = String(doneCount);
+  }
+  if(btn.textContent === "Ta bort"){
+    if(li.classList.contains("completed")){
+      doneCount = Math.max(0, doneCount - 1);
+      doneCounter.textContent = String(doneCount);
+    }
+    li.style.transition = "opacity .2s ease";
+    li.style.opacity = "0";
+    setTimeout(()=>li.remove(),200);
+  }
+});
