@@ -3,25 +3,20 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>ToDo-lista</title>
+  <title>My ToDo</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <main id="app">
-    <h1>Min ToDo-lista</h1>
-
-    <form id="todoForm">
-      <input id="todoInput" type="text" placeholder="Skriv en punkt..." />
+  <main id="card">
+    <h1>My ToDo</h1>
+    <p id="sub"><span id="doneCounter">0</span> completed</p>
+    <form id="todoForm" autocomplete="off" novalidate>
+      <input id="todoInput" type="text" />
       <button id="addBtn" type="submit">OK</button>
     </form>
-
     <p id="errorMsg" class="error"></p>
-
-    <p>Klarmarkerade: <strong id="doneCounter">0</strong></p>
-
     <ul id="todoList"></ul>
   </main>
-
   <script src="script.js"></script>
 </body>
 </html>
