@@ -4,7 +4,9 @@ const list=document.getElementById("todoList");
 const errorMsg=document.getElementById("errorMsg");
 const doneCounter=document.getElementById("doneCounter");
 let doneCount=0;
+
 function setCounter(v){doneCount=Math.max(0,v);doneCounter.textContent=String(doneCount);}
+
 function makeItem(text){
   const li=document.createElement("li");
   li.className="item";
@@ -14,11 +16,12 @@ function makeItem(text){
   const del=document.createElement("button");
   del.className="del";
   del.type="button";
-  del.textContent="×";
+  del.innerHTML=`<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6 7h12M9 7v10m6-10v10M5 7l1 12a2 2 0 002 2h8a2 2 0 002-2l1-12M9 7V5a2 2 0 012-2h2a2 2 0 012 2v2"/></svg>`;
   li.appendChild(p);
   li.appendChild(del);
   return li;
 }
+
 form.addEventListener("submit",e=>{
   e.preventDefault();
   const value=input.value.trim();
@@ -37,9 +40,11 @@ form.addEventListener("submit",e=>{
   input.value="";
   input.focus();
 });
+
 list.addEventListener("click",e=>{
-  const t=e.target;
-  if(t.classList.contains("text")){
+  const t=e.target.closest("button, p");
+  if(!t)return;
+  if(t.tagName==="P"){
     const li=t.closest(".item");
     const willComplete=!li.classList.contains("completed");
     li.classList.toggle("completed");
