@@ -100,17 +100,18 @@ h1{
 .del{
   background:transparent;
   border:0;
-  font-size:18px;
-  color:#666666;
   width:24px;
   height:24px;
-  line-height:22px;
-  text-align:center;
   cursor:pointer;
   opacity:.75;
 }
 .del:hover{opacity:1}
-.del svg{width:18px;height:18px;vertical-align:middle;}
+.del svg{
+  width:18px;
+  height:18px;
+  color:#666666;
+  vertical-align:middle;
+}
 @keyframes enter{
   from{opacity:0;transform:translateY(-40px)}
   to{opacity:1;transform:translateY(0)}
