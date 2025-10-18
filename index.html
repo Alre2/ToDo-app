@@ -2,27 +2,24 @@
 <html lang="sv">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>ToDo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ToDo (rosa, enkel)</title>
   <link rel="stylesheet" href="style.css" />
 </head>
-<body class="page">
-  <main class="app">
-    <h1>Att göra</h1>
+<body>
+  <main id="app">
+    <h1>Min ToDo-lista</h1>
 
-    <form id="todo-form" autocomplete="off">
-      <input id="todo-input" type="text" placeholder="Skriv en ny punkt…" />
-      <button id="add-btn" type="submit">Lägg till</button>
+    <form id="todoForm">
+      <input id="todoInput" type="text" placeholder="Skriv en punkt..." />
+      <button id="addBtn" type="submit">OK</button>
     </form>
 
-    <p id="error" class="error-msg"></p>
+    <p id="errorMsg" class="error"></p>
 
-    <div class="meta">
-      <span>Klara punkter:</span>
-      <strong id="done-count">0</strong>
-    </div>
+    <p>Klarmarkerade: <strong id="doneCounter">0</strong></p>
 
-    <ul id="todo-list"></ul>
+    <ul id="todoList"></ul>
   </main>
 
   <script src="script.js"></script>
