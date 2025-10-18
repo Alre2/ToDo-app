@@ -90,16 +90,7 @@ h1{
   flex:1;
   font-size:16px;
   color:#111111;
-  position:relative;
-  padding-left:16px;
   transition:color .25s ease, opacity .25s ease;
-}
-.text::before{
-  content:"—";
-  position:absolute;
-  left:0;
-  top:0;
-  color:#9a9a9a;
 }
 .completed .text{
   color:#8a8a8a;
@@ -119,6 +110,7 @@ h1{
   opacity:.75;
 }
 .del:hover{opacity:1}
+.del svg{width:18px;height:18px;vertical-align:middle;}
 @keyframes enter{
   from{opacity:0;transform:translateY(-40px)}
   to{opacity:1;transform:translateY(0)}
@@ -135,4 +127,3 @@ h1{
   #card,.item{animation:none;opacity:1;transform:none}
   .blink{animation:none}
 }
-
