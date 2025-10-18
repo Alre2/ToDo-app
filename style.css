@@ -1,119 +1,138 @@
+html,body{height:100%}
 body{
   margin:0;
-  font-family: Arial, sans-serif;
-  background:#ffe6f0;
-  color:#222;
+  background:linear-gradient(180deg,#ee9eb1 0%,#f4b9c7 55%,#f7c6d2 100%);
+  display:flex;
+  align-items:flex-start;
+  justify-content:center;
+  padding-top:60px;
+  font-family:Arial, Helvetica, sans-serif;
+  color:#111111;
 }
-
-#app{
-  max-width:600px;
-  margin:60px auto;
-  background:#fff;
-  border:1px solid #ddd;
-  padding:16px;
-  border-radius:6px;
-  box-shadow:0 4px 14px rgba(0,0,0,0.06);
+#card{
+  width:520px;
+  background:#f7f7f7;
+  border:1px solid #cfcfcf;
+  border-radius:4px;
+  box-shadow:0 8px 24px rgba(0,0,0,0.08);
+  padding:24px 28px 28px;
   opacity:0;
-  transform:translateY(-30px);
-  animation:pageIn .6s ease forwards;
+  transform:translateY(-40px);
+  animation:enter .7s ease forwards;
 }
-
 h1{
-  margin:0 0 12px 0;
-  font-size:22px;
-  color:#d81b60;
+  margin:0;
+  font-family:"Times New Roman", Georgia, serif;
+  font-size:36px;
+  line-height:1.1;
+  text-align:center;
+  font-weight:700;
+  color:#111111;
 }
-
+#sub{
+  margin:6px 0 16px;
+  text-align:center;
+  color:#6b6b6b;
+  font-size:14px;
+}
 #todoForm{
   display:flex;
   gap:8px;
-  margin-bottom:8px;
+  justify-content:center;
+  margin-bottom:10px;
 }
-
 #todoInput{
-  flex:1;
-  padding:8px;
-  border:1px solid #ccc;
-  border-radius:4px;
-  background:#fff0f7;
+  width:240px;
+  height:28px;
+  border:1px solid #bdbdbd;
+  background:#ffffff;
+  padding:0 6px;
+  font-size:14px;
+  border-radius:2px;
+  outline:none;
+  color:#111111;
 }
-
 #addBtn{
-  padding:8px 12px;
-  border:1px solid #c94b7a;
-  background:#ff99c8;
-  color:#000;
-  border-radius:4px;
+  height:30px;
+  padding:0 10px;
+  font-size:14px;
+  border:1px solid #9a9a9a;
+  background:#e9e9e9;
+  color:#111111;
+  border-radius:2px;
   cursor:pointer;
 }
-#addBtn:hover{opacity:0.9;}
-
 .error{
   min-height:18px;
-  color:#c00;
-  font-weight:bold;
+  text-align:center;
+  color:#c00000;
+  font-weight:700;
+  margin:6px 0 4px;
 }
-.blink{
-  animation:blinkRed .8s ease-in-out 2;
-}
-
+.blink{animation:blink .8s ease-in-out 2}
 #todoList{
   list-style:none;
   padding:0;
-  margin:10px 0 0 0;
-  border-top:1px solid #eee;
+  margin:8px 0 0;
 }
 .item{
   display:flex;
   align-items:center;
   justify-content:space-between;
-  gap:8px;
-  padding:8px 0;
-  border-bottom:1px solid #eee;
+  gap:10px;
+  padding:6px 0;
   opacity:0;
   transform:translateY(8px);
-  animation:itemIn .3s ease forwards;
+  animation:itemIn .32s ease forwards;
 }
 .text{
   margin:0;
   flex:1;
-  transition: color .25s ease, opacity .25s ease;
+  font-size:16px;
+  color:#111111;
+  position:relative;
+  padding-left:16px;
+  transition:color .25s ease, opacity .25s ease;
 }
-
+.text::before{
+  content:"—";
+  position:absolute;
+  left:0;
+  top:0;
+  color:#9a9a9a;
+}
 .completed .text{
-  color:#777;
+  color:#8a8a8a;
   text-decoration:line-through;
-  opacity:0.8;
+  opacity:.9;
 }
-
-.buttons{display:flex;gap:6px;}
-.buttons button{
-  border:1px solid #ccc;
-  background:#f6f6f6;
-  color:#000;
-  padding:6px 8px;
-  border-radius:4px;
+.del{
+  background:transparent;
+  border:0;
+  font-size:18px;
+  color:#666666;
+  width:24px;
+  height:24px;
+  line-height:22px;
+  text-align:center;
   cursor:pointer;
+  opacity:.75;
 }
-.buttons button:hover{opacity:0.95;}
-.btn-klar{background:#ffd4e8;}
-.btn-del{background:#ffe1e1;}
-
-@keyframes pageIn{
-  from{opacity:0;transform:translateY(-30px);}
-  to{opacity:1;transform:translateY(0);}
+.del:hover{opacity:1}
+@keyframes enter{
+  from{opacity:0;transform:translateY(-40px)}
+  to{opacity:1;transform:translateY(0)}
 }
 @keyframes itemIn{
-  from{opacity:0;transform:translateY(8px);}
-  to{opacity:1;transform:translateY(0);}
+  from{opacity:0;transform:translateY(8px)}
+  to{opacity:1;transform:translateY(0)}
 }
-@keyframes blinkRed{
-  0%,100%{color:#c00;}
-  50%{color:#900;}
+@keyframes blink{
+  0%,100%{color:#c00000}
+  50%{color:#900000}
 }
-
 @media (prefers-reduced-motion: reduce){
-  #app,.item{animation:none;opacity:1;transform:none;}
-  .blink{animation:none;}
+  #card,.item{animation:none;opacity:1;transform:none}
+  .blink{animation:none}
 }
 
